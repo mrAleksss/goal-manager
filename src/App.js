@@ -1,7 +1,11 @@
+import { useState } from "react";
+
+const today = new Date().toISOString().split("T")[0];
+
 const initialGoals = [
   {
     name: "programming",
-    deadline: { start: Date.now().toLocaleString(), end: "end of goal" },
+    deadline: today,
     priority: "moderate",
     reward: "new phone",
     steps: {
@@ -12,7 +16,7 @@ const initialGoals = [
   },
   {
     name: "sport",
-    deadline: { start: Date.now().toLocaleString(), end: "end of goal" },
+    deadline: today,
     priority: "easy",
     reward: "swimming in pool",
     steps: {
@@ -23,7 +27,7 @@ const initialGoals = [
   },
   {
     name: "reading",
-    deadline: { start: Date.now().toLocaleString(), end: "end of goal" },
+    deadline: today,
     priority: "moderate",
     reward: "delicious meal",
     steps: {
@@ -32,19 +36,40 @@ const initialGoals = [
     },
     breakDown: 5,
   },
-]
+];
 
 export default function App() {
+  const [goals, setGoals] = useState(initialGoals);
+  const [showAddGoals, setShowAddGoals] = useState(false);
+
+  function handleAddGoal(goal) {
+    setGoals([...goals, goal]);
+  }
+
+  function handleShowAddingGoals() {
+    setShowAddGoals((curState) => !curState);
+  }
+
   return (
     <div className="App">
-      <Goals />
-      <button>Add goal🧾</button>
-      <CreateGoal />
+      <Goals goals={goals} />
+      <Button onClick={handleShowAddingGoals}>
+        {showAddGoals ? "Close" : "Add goal🧾"}
+      </Button>
+      {showAddGoals && <CreateGoal onAddGoal={handleAddGoal} />}
     </div>
-  )
+  );
 }
 
-function Goals() {
+function Button({ children, onClick }) {
+  return (
+    <button className="button" onClick={onClick}>
+      {children}
+    </button>
+  );
+}
+
+function Goals({ goals }) {
   return (
     <div className="container">
       <div className="grid">
@@ -57,77 +82,114 @@ function Goals() {
         <div className="column">Hard goals</div>
       </div>
       <ul className="grid-list">
-        {initialGoals.map((goal) => (
-          <Goal goal={goal} />
+        {goals.map((goal) => (
+          <Goal goal={goal} key={crypto.randomUUID()} />
         ))}
       </ul>
     </div>
-  )
+  );
 }
 
 function Goal({ goal }) {
-  const steps = Object.values(goal.steps)
+  const steps = Object.values(goal.steps);
   return (
     <li>
       <h3>{goal.name}</h3>
-      <p>
-        Dead-Line: {goal.deadline.start}||{goal.deadline.end}
-      </p>
+      <p>Dead-Line: {goal.deadLine}</p>
       <p>Reward: {goal.reward}</p>
       <p>{goal.breakDown} times per ...</p>
       <span>Steps i need to take</span>
       <ul>
         {steps.map((step) => (
-          <Step step={step} />
+          <Step step={step} key={crypto.randomUUID()} />
         ))}
       </ul>
-      <button>edit🔨🔧</button>
+      <Button>edit🔨🔧</Button>
     </li>
-  )
+  );
 }
 
 function Step({ step }) {
-  return <li>{step}</li>
+  return <li>{step}</li>;
 }
 
-function CreateGoal() {
+function CreateGoal({ onAddGoal }) {
+  const [name, setName] = useState("");
+  const [priority, setPriority] = useState("moderate");
+  const [reward, setReward] = useState("");
+  const [deadLine, setDeadLine] = useState(today);
+  const [steps, setSteps] = useState("");
+  const [breakDown, setBreakDown] = useState("");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!name || !priority || !reward || !deadLine) return;
+    const newGoal = { name, priority, reward, breakDown, deadLine, steps };
+    onAddGoal(newGoal);
+  }
+
   return (
     <div className="form-container">
       <div className="form-popup">
-        <form>
-          <diV className="form-row">
+        <form onSubmit={handleSubmit}>
+          <div className="form-row">
             <lable>What your goal is?</lable>
-            <input type="text" />
-          </diV>
-          <diV className="form-row">
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+
+          <div className="form-row">
             <lable>Estimate priority</lable>
-            <select>
+            <select
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
+            >
               <option>easy</option>
               <option>moderate</option>
               <option>high</option>
             </select>
-          </diV>
+          </div>
 
-          <diV className="form-row">
+          <div className="form-row">
             <lable>What is your reward?</lable>
-            <input type="text" />
-          </diV>
+            <input
+              type="text"
+              value={reward}
+              onChange={(e) => setReward(e.target.value)}
+            />
+          </div>
 
-          <diV className="form-row">
+          <div className="form-row">
             <lable>Dead Line</lable>
-            <input type="text" />
-          </diV>
-          <diV className="form-row">
-            <lable>Steps or what are you need to do?</lable>
-            <input type="text" />
-          </diV>
-          <diV className="form-row"></diV>
-          <lable>Break down per dead line period</lable>
-          <input type="text" />
+            <input
+              type="date"
+              value={deadLine}
+              onChange={(e) => setDeadLine(e.target.value)}
+            />
+          </div>
 
-          <button>create</button>
+          <div className="form-row">
+            <lable>Steps or what are you need to do?</lable>
+            <input
+              type="text"
+              value={steps}
+              onChange={(e) => setSteps(e.target.value)}
+            />
+          </div>
+          <div className="form-row"></div>
+          <lable>Break down per dead line period</lable>
+          <input
+            type="text"
+            value={breakDown}
+            onChange={(e) => setBreakDown(Number(e.target.value))}
+          />
+
+          <Button>Create</Button>
         </form>
       </div>
     </div>
-  )
+  );
 }
