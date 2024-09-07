@@ -33,6 +33,7 @@ export default function App() {
 
   function handleAddGoal(goal) {
     setGoals([...goals, goal])
+    setShowAddGoals(false)
   }
 
   function handleShowAddingGoals() {
@@ -110,12 +111,16 @@ function Goal({ goal }) {
   return (
     <li>
       <h4 className="goal-title">{goal.name}</h4>
-      <p>
-        <span className="goal-property">Dead-Line: </span>
+      <p style={{ margin: "0", border: "1px solid #ccc" }}>
+        <span className="goal-property" style={{ backgroundColor: "#e9d1dd" }}>
+          Dead-Line:{" "}
+        </span>
         <span className="goal-value">{goal.deadLine}</span>
       </p>
-      <p>
-        <span className="goal-property">Reward: </span>
+      <p style={{ margin: "0", border: "1px solid #ccc" }}>
+        <span className="goal-property" style={{ backgroundColor: "#e9d1dd" }}>
+          Reward:{" "}
+        </span>
         <span className="goal-value">{goal.reward}</span>
       </p>
       <p>You have {diffInDays} days to complete your goal</p>

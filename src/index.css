@@ -83,6 +83,7 @@ input {
 .goal-title {
   background-color: #f3b6c5;
   padding: 10px;
+  margin: 0;
 }
 
 p {
