@@ -17,7 +17,7 @@
 
 .column {
   padding: 10px;
-  background-color: #f0f0f0;
+  background-color: #e9d1dd;
   text-align: center;
   border: 1px solid #ddd;
 }
@@ -31,7 +31,7 @@
 }
 
 .grid-list li {
-  background-color: #ffe8cc;
+  background-color: #dfe6ebe5;
 }
 
 .form {
@@ -58,10 +58,10 @@ input {
 }
 
 .button {
-  background-color: var(--color-medium);
+  background-color: #f3b6c5;
   color: #343a40;
-  padding: 0.8rem 1.2rem;
-  border: none;
+  /* padding: 0.8rem 1.2rem; */
+  /* border: none; */
   border-radius: 7px;
   font-weight: bold;
   cursor: pointer;
@@ -80,22 +80,21 @@ input {
   border: 1px solid #ddd;
 }
 
-/* .form-container {
-  position: relative;
+.goal-title {
+  background-color: #f3b6c5;
+  padding: 10px;
 }
 
-.form-popup {
-  position: fixed;
+p {
   display: flex;
-  flex-direction: column;
-  grid-template-columns: 1fr 12rem;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 50%;
-  max-width: 500px;
-  background-color: rgb(224, 230, 224);
-  padding: 20px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
-} */
+  justify-content: space-between;
+}
+
+.goal-property {
+  flex: 0.5;
+  margin-right: 10px;
+}
+.goal-value {
+  flex: 1;
+  text-align: center;
+}
