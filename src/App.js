@@ -70,16 +70,39 @@ function Button({ children, onClick }) {
 }
 
 function Goals({ goals }) {
+  const [easyGoals, setEasyGoals] = useState("Easy goals");
+  const [moderateGoals, setmoderateGoals] = useState("Moderate goals");
+  const [hardGoals, setHardGoals] = useState(" Hard goals");
+  const [selected, setSelected] = useState("column");
+
+  function handleSelected() {
+    setSelected("selected-inp");
+    setTimeout(() => setSelected("column"), 5000);
+  }
+
   return (
     <div className="container">
       <div className="grid">
         <div className="column">
           <h2>My Goals</h2>
         </div>
-        <div className="column">Number og goals X</div>
-        <div className="column">Easy goals</div>
-        <div className="column">Moderate goals</div>
-        <div className="column">Hard goals</div>
+        <div className="column">Number og goals {goals.length}</div>
+        <input
+          className={selected}
+          value={easyGoals}
+          onChange={(e) => setEasyGoals(e.target.value)}
+          onClick={handleSelected}
+        />
+        <input
+          className="column"
+          value={moderateGoals}
+          onChange={(e) => setmoderateGoals(e.target.value)}
+        />
+        <input
+          className="column"
+          value={hardGoals}
+          onChange={(e) => setHardGoals(e.target.value)}
+        />
       </div>
       <ul className="grid-list">
         {goals.map((goal) => (

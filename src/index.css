@@ -72,6 +72,14 @@ input {
   background-color: var(--color-dark);
 }
 
+.selected-inp {
+  background-color: #0c451e;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
 /* .form-container {
   position: relative;
 }
